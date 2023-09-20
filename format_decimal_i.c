@@ -16,20 +16,28 @@ int custom_printf(const char *format, ...)
 
 	while (*format)
 	{
-		if (*format == '%' && (*(format + 1) == 'd' || *(format + 1) == 'i'))
+		if (*format == '%')
 		{
+			format++;
+			if (*format == 'd' || *format == 'i')
+			{
 			int num = va_arg(args, int);
 
 			printf("%d\n", num);
+			count += num < 0 ? 2 : 1;
+		}
+		else
+		{
+			putchar('%');
 			count++;
-			format += 2;
+		}
 		}
 		else
 		{
 			putchar(*format);
 			count++;
-			format++;
 		}
+		format++;
 	}
 	va_end(args);
 	return (count);
